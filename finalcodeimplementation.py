@@ -26,13 +26,13 @@ print(data.head())
 
 scaler=StandardScaler()
 scaled_data= scaler.fit_transform(data)
-
+# make data positive as you cannot work with negative data for this 
 data_nn=np.abs(scaled_data)
-
+# utilizing NMMF
 nmf_model= NMF(n_components=3, random_state=42, init='random', max_iter=500)
 W=nmf_model.fit_transform(data_nn)
 H=nmf_model.components_
-
+# data preprrocessing addinng noise and randomizing the data so that the model doesn't overfit
 data['Phosphatidylserine_Level']= data['Phosphatidylserine_Level'] * 0.1
 X = data.drop(columns=['Phosphatidylserine_Level'])
 y=data['Phosphatidylserine_Level'].apply(lambda x:1 if x>1 else 0 )
@@ -55,7 +55,7 @@ X_train, X_test, y_train, y_test= train_test_split(X_noisy_scaled, y_randomized,
 
 
 
-
+# multiple decision trees best for high volume of data
 rf_model=RandomForestClassifier(n_estimators=500,class_weight='balanced',max_depth=2, random_state=42)
 
 rf_model.fit(X_train, y_train)
@@ -76,7 +76,7 @@ pca_data=pca.fit_transform(scaled_data)
 
 kmeans= KMeans(n_clusters=3,random_state=42)
 clusters= kmeans.fit_predict(scaled_data)
-
+# representing different techniques to show data from a different perspective
 plt.figure(figsize=(8,6))
 plt.scatter(pca_data[:,0],pca_data[:,1], c=clusters,cmap='viridis', s=50, alpha=0.7)
 
