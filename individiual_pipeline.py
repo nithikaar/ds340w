@@ -32,6 +32,8 @@ scaled_feat=scaler.fit_transform(features)
 
 X_train, X_test, y_train, y_test= train_test_split(scaled_feat,target, test_size=.9,random_state=500)
 
+https://www.tensorflow.org/tutorials/generative/autoencoder
+
 
 class Autoencoder(Model):
   def __init__(self,latent_dim,shape):
